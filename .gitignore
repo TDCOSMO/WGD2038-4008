@@ -1,0 +1,7 @@
+.DS_Store
+.pysex.*
+.pysex*
+lenstronomy_modeling/data/reduced_data/
+lenstronomy_modeling/temp
+lenstronomy_modeling/notebooks/.ipynb_checkpoints/
+lenstronomy_modeling/notebooks/process_output/.idea/*
