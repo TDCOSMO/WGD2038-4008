@@ -1,0 +1,327 @@
+# glee -f2 esmod_3band_comp_fid
+
+chi2type           18
+minimiser       siman
+seed                2
+
+siman_iter          1
+siman_nT         1000
+siman_dS            5
+siman_Sf          1.1
+siman_k             2
+siman_Ti           10
+siman_Tf          1.2
+siman_Tmin          1
+
+mcmc_n         200000
+mcmc_dS           0.3
+mcmc_dSini          0
+mcmc_k              2
+
+mlplane      lens_coord_observed
+
+time_delay_chi2_positions     predicted_image_positions
+
+cosmo_H0         70.000000  exact:
+cosmo_OmegaM      0.300000  exact:
+cosmo_OmegaDE     0.700000  exact:
+cosmo_w          -1.000000  exact:
+
+lenses_vary 9
+
+    shear
+    z       0.228300  exact:
+  1.0000e-06  #magnitude  exact:
+    0.314853  #theta     gaussian:0.116225,0.032216  min:0  label:MtoL      step:0.01
+
+    piemd
+    z       0.228300  exact:
+    2.843261  #x-coord   noprior:  label:lens_x    step:0.001
+    2.862018  #y-coord   noprior:  label:lens_y    step:0.001
+    0.617253  #b/a       flat:0.3,1  label:lens_q1   step:0.01
+    2.224886  #theta     noprior:  label:lens_pa1  step:0.05
+   82.455278  #theta_e   link:MtoL  a:0,261.885,1
+    2.402331  #r_core    noprior:  min:0.0001  label:lens_w11  step:0.03
+
+    piemd
+    z       0.228300  exact:
+    2.843261  #x-coord   link:lens_x  a:0,1,1
+    2.862018  #y-coord   link:lens_y  a:0,1,1
+    0.617253  #b/a       link:lens_q1  a:0,1,1
+    2.224886  #theta     link:lens_pa1  a:0,1,1
+  -82.455278  #theta_e   link:MtoL  a:0,-261.885,1
+    2.446819  #r_core    noprior:  min:0.0001  label:lens_w12  step:0.03
+
+    piemd
+    z       0.228300  exact:
+    2.843261  #x-coord   link:lens_x  a:0,1,1
+    2.862018  #y-coord   link:lens_y  a:0,1,1
+    0.581667  #b/a       flat:0.3,1  label:lens_q2   step:0.001
+    2.224861  #theta     noprior:  label:lens_pa2  step:0.05
+    3.576352  #theta_e   link:MtoL  a:0,11.3588,1
+    0.097364  #r_core    noprior:  min:0.0001  label:lens_w21  step:0.01
+
+    piemd
+    z       0.228300  exact:
+    2.843261  #x-coord   link:lens_x  a:0,1,1
+    2.862018  #y-coord   link:lens_y  a:0,1,1
+    0.581667  #b/a       link:lens_q2  a:0,1,1
+    2.224861  #theta     link:lens_pa2  a:0,1,1
+   -3.576352  #theta_e   link:MtoL  a:0,-11.3588,1
+    0.855748  #r_core    noprior:  min:0.0001  label:lens_w22  step:0.01
+
+    piemd
+    z       0.228300  exact:
+    2.843261  #x-coord   link:lens_x  a:0,1,1
+    2.862018  #y-coord   link:lens_y  a:0,1,1
+    0.793096  #b/a       flat:0.3,1  label:lens_q3   step:0.001
+    0.541155  #theta     noprior:  label:lens_pa3  step:0.05
+   71.005649  #theta_e   link:MtoL  a:0,225.52,1
+    1.526103  #r_core    noprior:  min:0.0001  label:lens_w31  step:0.02
+
+    piemd
+    z       0.228300  exact:
+    2.843261  #x-coord   link:lens_x  a:0,1,1
+    2.862018  #y-coord   link:lens_y  a:0,1,1
+    0.793096  #b/a       link:lens_q3  a:0,1,1
+    0.541155  #theta     link:lens_pa3  a:0,1,1
+  -71.005649  #theta_e   link:MtoL  a:0,-225.52,1
+    1.562309  #r_core    noprior:  min:0.0001  label:lens_w32  step:0.02
+
+    nfw
+    z       0.228300  exact:
+    2.843261  #x-coord   link:lens_x  a:0,1,1
+    2.862018  #y-coord   link:lens_y  a:0,1,1
+    0.844475  #b/a       flat:0.3,1  step:0.01
+    2.029216  #theta     noprior:  step:0.05
+    0.012146  #theta_e   noprior:  min:0.0001  step:0.01
+   17.672331  #r_scale   gaussian:22.6,3.1  min:13.3  step:3
+
+    shear
+    z       0.228300  exact:
+    0.158403  #magnitude  flat:0.0001,1  step:0.01
+    3.708740  #theta     noprior:  step:0.1
+
+sources 1
+
+    z         0.777000  exact:
+    source weighted
+    srcx      2.566787  exact:  step:0.01
+    srcy      2.619953  exact:  step:0.01
+    4
+    4.315557      3.355736  error:0.004  t:0,0
+    2.008065      1.648718  error:0.004  t:0,1e+06
+    3.522421      1.674728  error:0.004  t:0,1e+06
+    2.133974      3.738789  error:0.004  t:0,1e+06
+
+esources 3
+
+    z         0.777000  exact:
+    esource_ngy          50
+    esource_ngx          148
+    esource_dx           0.040000
+    esource_refcoord     -0.078769    -0.124005
+    esource_data         /afs/mpa/home/kcwong/code_review_2038/desj2038_bgsub_f475x.fits
+    esource_wht          /afs/mpa/home/kcwong/code_review_2038/desj2038_wht_f475x_pow2.fits
+    esource_arcmask      /afs/mpa/home/kcwong/code_review_2038/arcmask_desj2038_uvis.fits
+    esource_lensmask     /afs/mpa/home/kcwong/code_review_2038/lensmask_desj2038_uvis.fits
+    esource_psf          /afs/mpa/home/kcwong/code_review_2038/psf_desj2038_f475x_cut21_psfc2.fits
+    esource_sub_agn_psf  /afs/mpa/home/kcwong/code_review_2038/psf_desj2038_f475x_cut57_psfc2.fits
+    esource_sub_agn_psf_factor     1
+    esource_sub_esr_psf  /afs/mpa/home/kcwong/code_review_2038/psf_desj2038_f475x_cut39_psfc2.fits
+    esource_sub_esr_psf_factor     1
+    esource_regopt       SpecRegPrecSigFigOnce
+    esource_reglampre    1
+    esource_reglamnup    1000
+    esource_regtype      curv
+    esource_reglam       573.746
+    esource_reglamlo     1e-09
+    esource_reglamhi     1e+09
+    esource_light  7
+        sersic
+            2.831078  #x-coord   noprior:  label:lenslight475x  step:0.001
+            2.869586  #y-coord   noprior:  label:lenslight475y  step:0.001
+            0.770141  #q         flat:0.3,1  label:lenslight475q1  step:0.001
+           -0.832999  #PA        noprior:  label:lenslight475pa1  step:0.05
+            0.034046  #amp       noprior:  min:0  label:lenslight475amp1  step:0.01
+            1.760010  #r_eff     flat:0,10  step:0.05
+            1.184792  #n_sersic  flat:0.4,10  step:0.1
+        sersic
+            2.831078  #x-coord   link:lenslight475x  a:0,1,1
+            2.869586  #y-coord   link:lenslight475y  a:0,1,1
+            0.486086  #q         flat:0.3,1  label:lenslight475q2  step:0.001
+           -0.778664  #PA        noprior:  label:lenslight475pa2  step:0.05
+            0.130927  #amp       noprior:  min:0  label:lenslight475amp2  step:0.01
+            0.441411  #r_eff     flat:0,10  step:0.05
+            0.787263  #n_sersic  flat:0.4,10  step:0.1
+        sersic
+            2.831078  #x-coord   link:lenslight475x  a:0,1,1
+            2.869586  #y-coord   link:lenslight475y  a:0,1,1
+            0.390500  #q         flat:0.3,1  label:lenslight475q3  step:0.001
+            4.962085  #PA        noprior:  label:lenslight475pa3  step:0.05
+            0.008066  #amp       noprior:  min:0  label:lenslight475amp3  step:0.01
+            0.792018  #r_eff     flat:0,10  step:0.05
+            7.057402  #n_sersic  flat:0.4,10  step:0.1
+        psf
+            4.314810  #x-coord   noprior:  label:imgAx     step:0.001
+            3.356681  #y-coord   noprior:  label:imgAy     step:0.001
+          175.704083  #amp       noprior:  min:0  step:10
+        psf
+            2.008032  #x-coord   noprior:  label:imgBx     step:0.001
+            1.649107  #y-coord   noprior:  label:imgBy     step:0.001
+          202.699275  #amp       noprior:  min:0  step:10
+        psf
+            3.521723  #x-coord   noprior:  label:imgCx     step:0.001
+            1.675061  #y-coord   noprior:  label:imgCy     step:0.001
+          203.215874  #amp       noprior:  min:0  step:5
+        psf
+            2.133158  #x-coord   noprior:  label:imgDx     step:0.001
+            3.737741  #y-coord   noprior:  label:imgDy     step:0.001
+           78.008102  #amp       noprior:  min:0  step:5
+    esource_end
+
+    z         0.777000  exact:
+    esource_ngy          50
+    esource_ngx          148
+    esource_dx           0.040000
+    esource_refcoord     -0.091557    -0.087544
+    esource_data         /afs/mpa/home/kcwong/code_review_2038/desj2038_bgsub_f814w.fits
+    esource_wht          /afs/mpa/home/kcwong/code_review_2038/desj2038_wht_f814w_pow2.fits
+    esource_arcmask      /afs/mpa/home/kcwong/code_review_2038/arcmask_desj2038_uvis.fits
+    esource_lensmask     /afs/mpa/home/kcwong/code_review_2038/lensmask_desj2038_uvis.fits
+    esource_psf          /afs/mpa/home/kcwong/code_review_2038/psf_desj2038_f814w_cut21_psfc2.fits
+    esource_sub_agn_psf  /afs/mpa/home/kcwong/code_review_2038/psf_desj2038_f814w_cut57_psfc2.fits
+    esource_sub_agn_psf_factor     1
+    esource_sub_esr_psf  /afs/mpa/home/kcwong/code_review_2038/psf_desj2038_f814w_cut39_psfc2.fits
+    esource_sub_esr_psf_factor     1
+    esource_regopt       SpecRegPrecSigFigOnce
+    esource_reglampre    1
+    esource_reglamnup    1000
+    esource_regtype      curv
+    esource_reglam       247.344
+    esource_reglamlo     1e-09
+    esource_reglamhi     1e+09
+    esource_light  7
+        sersic
+            2.840030  #x-coord   noprior:  label:lenslight814x  step:0.001
+            2.861873  #y-coord   noprior:  label:lenslight814y  step:0.001
+            0.768952  #q         flat:0.3,1  label:lenslight814q1  step:0.001
+            0.544243  #PA        noprior:  label:lenslight814pa1  step:0.05
+            0.014191  #amp       noprior:  min:0  label:lenslight814amp1  step:0.01
+            2.462839  #r_eff     flat:0,10  step:0.05
+            0.538493  #n_sersic  flat:0.4,10  step:0.1
+        sersic
+            2.840030  #x-coord   link:lenslight814x  a:0,1,1
+            2.861873  #y-coord   link:lenslight814y  a:0,1,1
+            0.615655  #q         flat:0.3,1  label:lenslight814q2  step:0.001
+           -0.893499  #PA        noprior:  label:lenslight814pa2  step:0.05
+            0.069612  #amp       noprior:  min:0  label:lenslight814amp2  step:0.01
+            1.617894  #r_eff     flat:0,10  step:0.05
+            2.638594  #n_sersic  flat:0.4,10  step:0.1
+        sersic
+            2.840030  #x-coord   link:lenslight814x  a:0,1,1
+            2.861873  #y-coord   link:lenslight814y  a:0,1,1
+            0.495557  #q         flat:0.3,1  label:lenslight814q3  step:0.001
+            6.124065  #PA        noprior:  label:lenslight814pa3  step:0.05
+            0.105695  #amp       noprior:  min:0  label:lenslight814amp3  step:0.01
+            0.014131  #r_eff     flat:0,10  step:0.05
+            1.359410  #n_sersic  flat:0.4,10  step:0.1
+        psf
+            4.314810  #x-coord   link:imgAx  a:0,1,1
+            3.356681  #y-coord   link:imgAy  a:0,1,1
+          137.322641  #amp       noprior:  min:0  step:10
+        psf
+            2.008032  #x-coord   link:imgBx  a:0,1,1
+            1.649107  #y-coord   link:imgBy  a:0,1,1
+          176.495578  #amp       noprior:  min:0  step:10
+        psf
+            3.521723  #x-coord   link:imgCx  a:0,1,1
+            1.675061  #y-coord   link:imgCy  a:0,1,1
+          157.374451  #amp       noprior:  min:0  step:5
+        psf
+            2.133158  #x-coord   link:imgDx  a:0,1,1
+            3.737741  #y-coord   link:imgDy  a:0,1,1
+           65.344191  #amp       noprior:  min:0  step:5
+    esource_end
+
+    z         0.777000  exact:
+    esource_ngy          50
+    esource_ngx          74
+    esource_dx           0.080000
+    esource_refcoord     -0.080000    -0.080000
+    esource_data         /afs/mpa/home/kcwong/code_review_2038/desj2038_bgsub_f160w.fits
+    esource_wht          /afs/mpa/home/kcwong/code_review_2038/desj2038_wht_f160w_pow3.fits
+    esource_arcmask      /afs/mpa/home/kcwong/code_review_2038/arcmask_desj2038_wfc.fits
+    esource_lensmask     /afs/mpa/home/kcwong/code_review_2038/lensmask_desj2038_wfc.fits
+    esource_psf          /afs/mpa/home/kcwong/code_review_2038/psf_desj2038_f160w_cut9_psfc9.fits
+    esource_sub_agn_psf  /afs/mpa/home/kcwong/code_review_2038/psf_desj2038_f160w_3x_cut171_psfc9.fits
+    esource_sub_agn_psf_factor     3
+    esource_sub_esr_psf  /afs/mpa/home/kcwong/code_review_2038/psf_desj2038_f160w_3x_cut57_psfc9.fits
+    esource_sub_esr_psf_factor     3
+    esource_regopt       SpecRegPrecSigFigOnce
+    esource_reglampre    1
+    esource_reglamnup    1000
+    esource_regtype      curv
+    esource_reglam       0.985744
+    esource_reglamlo     1e-09
+    esource_reglamhi     1e+09
+    esource_light  10
+        piemd
+            2.843261  #x-coord   link:lens_x  a:0,1,1
+            2.862018  #y-coord   link:lens_y  a:0,1,1
+            0.617253  #q         link:lens_q1  a:0,1,1
+            2.224886  #PA        link:lens_pa1  a:0,1,1
+          262.904750  #amp       noprior:  min:0  label:lenslight160amp1  step:1
+            2.402331  #w         link:lens_w11  a:0,1,1
+        piemd
+            2.843261  #x-coord   link:lens_x  a:0,1,1
+            2.862018  #y-coord   link:lens_y  a:0,1,1
+            0.617253  #q         link:lens_q1  a:0,1,1
+            2.224886  #PA        link:lens_pa1  a:0,1,1
+         -262.904750  #amp       link:lenslight160amp1  a:0,-1,1
+            2.446819  #w         link:lens_w12  a:0,1,1
+        piemd
+            2.843261  #x-coord   link:lens_x  a:0,1,1
+            2.862018  #y-coord   link:lens_y  a:0,1,1
+            0.581667  #q         link:lens_q2  a:0,1,1
+            2.224861  #PA        link:lens_pa2  a:0,1,1
+           11.247504  #amp       noprior:  min:0  label:lenslight160amp2  step:1
+            0.097364  #w         link:lens_w21  a:0,1,1
+        piemd
+            2.843261  #x-coord   link:lens_x  a:0,1,1
+            2.862018  #y-coord   link:lens_y  a:0,1,1
+            0.581667  #q         link:lens_q2  a:0,1,1
+            2.224861  #PA        link:lens_pa2  a:0,1,1
+          -11.247504  #amp       link:lenslight160amp2  a:0,-1,1
+            0.855748  #w         link:lens_w22  a:0,1,1
+        piemd
+            2.843261  #x-coord   link:lens_x  a:0,1,1
+            2.862018  #y-coord   link:lens_y  a:0,1,1
+            0.793096  #q         link:lens_q3  a:0,1,1
+            0.541155  #PA        link:lens_pa3  a:0,1,1
+          224.107833  #amp       noprior:  min:0  label:lenslight160amp3  step:1
+            1.526103  #w         link:lens_w31  a:0,1,1
+        piemd
+            2.843261  #x-coord   link:lens_x  a:0,1,1
+            2.862018  #y-coord   link:lens_y  a:0,1,1
+            0.793096  #q         link:lens_q3  a:0,1,1
+            0.541155  #PA        link:lens_pa3  a:0,1,1
+         -224.107833  #amp       link:lenslight160amp3  a:0,-1,1
+            1.562309  #w         link:lens_w32  a:0,1,1
+        psf
+            4.314810  #x-coord   link:imgAx  a:0,1,1
+            3.356681  #y-coord   link:imgAy  a:0,1,1
+         1086.431320  #amp       noprior:  min:0  step:10
+        psf
+            2.008032  #x-coord   link:imgBx  a:0,1,1
+            1.649107  #y-coord   link:imgBy  a:0,1,1
+         1332.790750  #amp       noprior:  min:0  step:10
+        psf
+            3.521723  #x-coord   link:imgCx  a:0,1,1
+            1.675061  #y-coord   link:imgCy  a:0,1,1
+         1293.631320  #amp       noprior:  min:0  step:5
+        psf
+            2.133158  #x-coord   link:imgDx  a:0,1,1
+            3.737741  #y-coord   link:imgDy  a:0,1,1
+          515.459513  #amp       noprior:  min:0  step:5
+    esource_end
