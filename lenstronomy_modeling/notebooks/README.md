@@ -8,6 +8,7 @@ Some of these notebooks use the following codes for plotting purposes:
 - [Coloripy](https://github.com/ajshajib/coloripy)
 
 This is the list of notebooks in the general order of workflow, and grouped
+ accordingly.
 
 **Modeling:**
 - These notebooks creates cutouts for modeling and makes initial PSF
@@ -15,7 +16,7 @@ This is the list of notebooks in the general order of workflow, and grouped
     - `Image preprocessing F160W.ipynb`
     - `Image preprocessing F814W.ipynb`
     - `Image preprocessing F475X.ipynb`
-- `2038 Multiband Image Modelling.ipynb` setups the model with multiple
+- `2038 Multiband Image Modeling.ipynb` setups the model with multiple
  settings. These models are sent to a cluster for optimization. Test models
   can be run with shorter optimization routines, and the model outputs (both
    from test runs and full cluster runs) can be visually inspected.
@@ -37,6 +38,5 @@ This is the list of notebooks in the general order of workflow, and grouped
 **Post-processing of the models to add kinematics, external convergence:**
 - `Fit deflector light using photutils.ipynb` obtains the MGE of the
  deflector's light to use in the kinematic computation.
-- The kinematics is computed on cluster using the `ModelOutput
-.compute_model_velocity_dispersion()` 
+- The kinematics is computed on cluster using the `ModelOutput.compute_model_velocity_dispersion()` 
 method.
