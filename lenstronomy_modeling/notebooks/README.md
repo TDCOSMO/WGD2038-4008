@@ -34,9 +34,21 @@ This is the list of notebooks in the general order of workflow, and grouped
   posterior.
 - `Fermat potentials and lens model comparisons.ipynb` compares Fermat
  potential differences between differnt lens models.
+- `Check NFW properties.ipynb` checks the $M$-$c$ relation for the NFW halos
+ in the composite models.
   
 **Post-processing of the models to add kinematics, external convergence:**
 - `Fit deflector light using photutils.ipynb` obtains the MGE of the
  deflector's light to use in the kinematic computation.
-- The kinematics is computed on cluster using the `ModelOutput.compute_model_velocity_dispersion()` 
-method.
+- The kinematics is computed on cluster using the `output_class.ModelOutput
+.compute_model_velocity_dispersion()` method. This module is provided in the
+ "process_output" folder. The other files in that folder are used to
+  distribute the computing job over multiple cores in the cluster.
+- `Fermat potentials and lens model comparisons.ipynb` computes the Fermat
+ potential differences for the lens models, combined them using BIC
+  weighting, and compare between model settings. 
+- `Distance ratio prior.ipynb` obtains the $D_{\rm s}/D_{\rm ds}$
+ distribution from the Pantheon dataset.
+- `Combine kinematics and external convergence.ipynb` combines the computed
+ velocity dispersion with the lens models to provide final Fermat potential
+  differences, or the time-delay predictions.
