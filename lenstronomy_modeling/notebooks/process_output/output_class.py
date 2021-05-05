@@ -541,12 +541,23 @@ class ModelOutput(object):
                                     / self.model_velocity_dispersion**2
 
 
+from lenstronomy.Cosmo.lens_cosmo import LensCosmo
+from lenstronomy.Analysis.lens_profile import LensProfileAnalysis
+from lenstronomy.LensModel.lens_model import LensModel
+
+lens_cosmo = LensCosmo(z_lens=0.230, z_source=0.777)
+lens_analysis = LensProfileAnalysis(
+    LensModel(lens_model_list=['NFW_ELLIPSE', 'SHEAR', 'TRIPLE_CHAMELEON'],
+              z_lens=0.230, z_source=0.777,
+              multi_plane=False,  # True,
+              ))
+
+
 def custom_loglikelihood_addition(kwargs_lens=None, kwargs_source=None,
                                   kwargs_lens_light=None, kwargs_ps=None,
                                   kwargs_special=None, kwargs_extinction=None):
     """
-    Get custom additional prior used in composite models. Necessary to
-    unpickle composite model outputs.
+    Impose a Gaussian prior on the NFW scale radius R_s based on Gavazzi et al. (2007).
     """
     if kwargs_lens[0]['alpha_Rs'] < 0.:
         return -np.inf
@@ -563,10 +574,32 @@ def custom_loglikelihood_addition(kwargs_lens=None, kwargs_source=None,
     if not -0.5 < kwargs_lens[0]['e2'] < 0.5:
         return -np.inf
 
-    # kwargs_lower_lens.append({'alpha_Rs': 0, 'Rs': r_s_prior_mu-5*r_s_prior_sigma, 'center_x': lens_center_ra-0.2, 'center_y': lens_center_dec-0.2, 'e1': -0.5, 'e2': -0.5})
-    # kwargs_upper_lens.append({'alpha_Rs': 10, 'Rs': r_s_prior_mu+5*r_s_prior_sigma, 'center_x': lens_center_ra+0.2, 'center_y': lens_center_dec+0.2, 'e1': 0.5, 'e2': 0.5})
+    log_L = 0.
 
-    return 0.
+    # integrate upto 3.2 arcsec, which is half-light radius (~half-mass radius)
+    mean_convergence = lens_analysis.mass_fraction_within_radius(
+        kwargs_lens,
+        kwargs_lens[0]['center_x'],
+        kwargs_lens[0]['center_y'],
+        3.2,
+        numPix=320
+    )
+
+    stellar_mass = np.log10(
+        mean_convergence[2] * np.pi * (3.2 / 206265 * lens_cosmo.dd) ** 2
+        * lens_cosmo.sigma_crit * 2)  # multiplying by 2 to convert half-mass to full mass
+
+    # log_L += - 0.5 * (stellar_mass - 11.40)**2 / (0.08**2 + 0.1**2)
+    # adding 0.07 uncertainty in quadrature to account for 15% uncertainty in H_0, Om_0 ~ U(0.05, 0.5)
+    if stellar_mass > 11.40:
+        log_L += -0.5 * (11.40 - stellar_mass) ** 2 / (0.01 ** 2 + 0.07 ** 2)
+    elif stellar_mass < 11.40 - 0.25:
+        log_L += -0.5 * (11.40 - 0.25 - stellar_mass) ** 2 / (
+                    0.08 ** 2 + 0.07 ** 2)
+    else:
+        log_L += -0.5
+
+    return log_L
 
 
 def compute_BIC(num_data, num_model, max_logL):
