@@ -559,6 +559,22 @@ def custom_loglikelihood_addition(kwargs_lens=None, kwargs_source=None,
     """
     Impose a Gaussian prior on the NFW scale radius R_s based on Gavazzi et al. (2007).
     """
+    # imports inside function to avoid pickling
+    from colossus.halo import concentration
+    from colossus.halo import mass_defs
+    from colossus.cosmology import cosmology
+
+    from lenstronomy.Cosmo.lens_cosmo import LensCosmo
+    from lenstronomy.Analysis.lens_profile import LensProfileAnalysis
+    from lenstronomy.LensModel.lens_model import LensModel
+
+    lens_cosmo = LensCosmo(z_lens=0.230, z_source=0.777)
+    lens_analysis = LensProfileAnalysis(
+        LensModel(lens_model_list=['NFW_ELLIPSE', 'SHEAR', 'TRIPLE_CHAMELEON'],
+                  z_lens=0.230, z_source=0.777,
+                  multi_plane=False,  # True,
+                  ))
+
     if kwargs_lens[0]['alpha_Rs'] < 0.:
         return -np.inf
 
@@ -577,13 +593,15 @@ def custom_loglikelihood_addition(kwargs_lens=None, kwargs_source=None,
     log_L = 0.
 
     # integrate upto 3.2 arcsec, which is half-light radius (~half-mass radius)
-    mean_convergence = lens_analysis.mass_fraction_within_radius(
-        kwargs_lens,
-        kwargs_lens[0]['center_x'],
-        kwargs_lens[0]['center_y'],
-        3.2,
-        numPix=320
-    )
+    mean_convergence = lens_analysis.mass_fraction_within_radius(kwargs_lens,
+                                                                 kwargs_lens[
+                                                                     2][
+                                                                     'center_x'],
+                                                                 kwargs_lens[
+                                                                     2][
+                                                                     'center_y'],
+                                                                 3.2,
+                                                                 numPix=320)
 
     stellar_mass = np.log10(
         mean_convergence[2] * np.pi * (3.2 / 206265 * lens_cosmo.dd) ** 2
@@ -591,13 +609,29 @@ def custom_loglikelihood_addition(kwargs_lens=None, kwargs_source=None,
 
     # log_L += - 0.5 * (stellar_mass - 11.40)**2 / (0.08**2 + 0.1**2)
     # adding 0.07 uncertainty in quadrature to account for 15% uncertainty in H_0, Om_0 ~ U(0.05, 0.5)
-    if stellar_mass > 11.40:
-        log_L += -0.5 * (11.40 - stellar_mass) ** 2 / (0.01 ** 2 + 0.07 ** 2)
-    elif stellar_mass < 11.40 - 0.25:
-        log_L += -0.5 * (11.40 - 0.25 - stellar_mass) ** 2 / (
-                    0.08 ** 2 + 0.07 ** 2)
+    high_sm = 11.57 + 0.25 + 0.06  # +0.06 is to add H_0 uncertainty
+    low_sm = 11.57 - 0.06  # -0.06 is to add H_0 uncertainty
+    if stellar_mass > high_sm:
+        log_L += -0.5 * (high_sm - stellar_mass) ** 2 / (0.16 ** 2)
+    elif stellar_mass < low_sm:
+        log_L += -0.5 * (low_sm - stellar_mass) ** 2 / (0.13 ** 2)
     else:
         log_L += -0.5
+
+    _, _, c, r, halo_mass = lens_cosmo.nfw_angle2physical(kwargs_lens[0]['Rs'],
+                                                          kwargs_lens[0][
+                                                              'alpha_Rs'])
+    log_L += -0.5 * (np.log10(halo_mass) - 13.5) ** 2 / 0.3 ** 2
+
+    my_cosmo = {'flat': True, 'H0': 70., 'Om0': 0.3, 'Ob0': 0.05,
+                'sigma8': 0.823, 'ns': 0.96}  # fiducial cosmo
+    cosmo = cosmology.setCosmology('my_cosmo', my_cosmo)
+
+    c200 = concentration.concentration(halo_mass * cosmo.h, '200c',
+                                       # input halo mass needs to be in M_sun/h unit
+                                       0.23, model='diemer19')
+
+    log_L += -0.5 * (np.log10(c) - np.log10(c200)) ** 2 / (0.11 ** 2)
 
     return log_L
 
