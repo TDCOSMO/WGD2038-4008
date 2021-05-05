@@ -249,7 +249,6 @@ class ModelOutput(object):
         # source_result = kwargs_result['kwargs_source']
         # ps_result = kwargs_result['kwargs_ps']
 
-
         if self.is_test:
             band_index = 0
         else:
@@ -338,8 +337,9 @@ class ModelOutput(object):
                 a_ani = 2
             else:
                 r_eff = 3.2 * r_eff_uncertainty_factor #self.get_r_eff(i)
-                a_ani = np.random.uniform(a_ani_min,
-                                          a_ani_max)
+                # Jeffrey's prior for a_ani
+                a_ani = 10**np.random.uniform(np.log10(a_ani_min),
+                                              np.log10(a_ani_max))
 
             self.a_ani.append(a_ani)
             self.r_eff.append(r_eff)
