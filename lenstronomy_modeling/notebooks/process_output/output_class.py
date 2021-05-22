@@ -616,7 +616,7 @@ def custom_loglikelihood_addition(kwargs_lens=None, kwargs_source=None,
     elif stellar_mass < low_sm:
         log_L += -0.5 * (low_sm - stellar_mass) ** 2 / (0.13 ** 2)
     else:
-        log_L += -0.5
+        log_L += 0.
 
     _, _, c, r, halo_mass = lens_cosmo.nfw_angle2physical(kwargs_lens[0]['Rs'],
                                                           kwargs_lens[0][
