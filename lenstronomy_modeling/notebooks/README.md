@@ -35,7 +35,7 @@ This is the list of notebooks in the general order of workflow, and grouped
 - `Fermat potentials and lens model comparisons.ipynb` computes the Fermat
  potential differences for the lens models, combined them using BIC
   weighting, and compare between model settings.
-- `Check NFW properties.ipynb` checks the $M$-$c$ relation for the NFW halos
+- `Check NFW properties.ipynb` checks the M-c relation for the NFW halos
  in the composite models.
   
 **Post-processing of the models to add kinematics, external convergence:**
