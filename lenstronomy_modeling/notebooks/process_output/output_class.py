@@ -205,14 +205,15 @@ class ModelOutput(object):
 
             model_arrival_times = self.td_cosmography.time_delays(
                     kwargs_result['kwargs_lens'],
-                    kwargs_result['kwargs_ps']
+                    kwargs_result['kwargs_ps'],
+                    original_ps_position=True
             )
             # print(model_arrival_times)
-            dt_AB = model_arrival_times[0] - model_arrival_times[1]
-            dt_AD = model_arrival_times[0] - model_arrival_times[3]
-            dt_BD = model_arrival_times[1] - model_arrival_times[3]
+            dt_AB = model_arrival_times[1] - model_arrival_times[3]
+            dt_AC = model_arrival_times[1] - model_arrival_times[2]
+            dt_AD = model_arrival_times[1] - model_arrival_times[0]
 
-            self.model_time_delays.append([dt_AB, dt_AD, dt_BD])
+            self.model_time_delays.append([dt_AB, dt_AC, dt_AD])
 
         self.model_time_delays = np.array(self.model_time_delays)
 
