@@ -1,0 +1,12 @@
+.DS_Store
+.pysex.*
+.pysex*
+lenstronomy_modeling/data/reduced_data/
+lenstronomy_modeling/temp
+lenstronomy_modeling/notebooks/.ipynb_checkpoints/
+lenstronomy_modeling/notebooks/process_output/.idea/*
+lenstronomy_modeling/notebooks/__pycache__/*
+lenstronomy_modeling/notebooks/process_output/__pycache__/*
+lenstronomy_modeling/temp_stellar_mass/*
+lenstronomy_modeling/temp_stellar_mass2/*
+lenstronomy_modeling/notebooks/*.txt
